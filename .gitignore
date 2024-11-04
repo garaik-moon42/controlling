@@ -1,2 +1,3 @@
-src/main/resources/db/data/*
+src/db/data/*
 /target/
+src/main/resources/sample/

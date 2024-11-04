@@ -5,13 +5,14 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 public class KHImporter {
 
     private static Stream<String> getFileContentAsStream() throws IOException {
-        Path sourceFilePath = Paths.get("./sample/kh-transaction-history-sample.csv");
+        Path sourceFilePath = Paths.get("./src/main/resources/sample/HISTORY_EQ24CT2S_2024-11-04T17_22_50.csv");
         Charset latin2 = Charset.forName("ISO-8859-2");
         return Files.lines(sourceFilePath, latin2);
     }
@@ -22,9 +23,11 @@ public class KHImporter {
             Stream<String> headerStream = getFileContentAsStream();
             Stream<String> contentStream = getFileContentAsStream().skip(1)
         ) {
+            Set<Integer> existingIds = db.getStoredItemIds();
             String header = headerStream.findFirst().orElseThrow();
             Stream<String> linesWithoutHeaders = contentStream.filter(Predicate.not(Predicate.isEqual(header)));
-            linesWithoutHeaders.map(TransactionLogItem::createOf).forEach(db::insert);
+            linesWithoutHeaders.map(TransactionLogItem::createOf).filter(item -> !existingIds.contains(item.getId())).forEach(db::insert);
+            System.out.println("Number of inserted rows: " + db.getInsertCount());
         } catch (Exception e) {
             e.printStackTrace();
         }

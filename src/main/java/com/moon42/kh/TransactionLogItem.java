@@ -1,12 +1,13 @@
 package com.moon42.kh;
 
+import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class TransactionLogItem {
     private int id;
@@ -14,14 +15,21 @@ public class TransactionLogItem {
     private String accountName;
     private ZonedDateTime entryDate;
     private LocalDate valueDate;
+    private LocalDate month;
     private String counterAccountNumber;
     private String partner;
     private BigDecimal amount;
     private String currency;
+    private Optional<String> ctrlCategory = Optional.empty();
+    private Optional<LocalDate> ctrlMonth = Optional.empty();
+    private Optional<Boolean> ctrlInclude = Optional.empty();
+    private Optional<Boolean> ctrlVat = Optional.empty();
+    private Optional<BigDecimal> ctrlAmount = Optional.empty();
     private String notice;
     private String transactionBankId;
     private String transactionTypeCode;
     private String transactionTypeName;
+    private Optional<String> ctrlnvoiceUrl = Optional.empty();
 
     public int getId() {
         return id;
@@ -63,6 +71,14 @@ public class TransactionLogItem {
         this.valueDate = valueDate;
     }
 
+    public LocalDate getMonth() {
+        return month;
+    }
+
+    public void setMonth(LocalDate month) {
+        this.month = month;
+    }
+
     public String getCounterAccountNumber() {
         return counterAccountNumber;
     }
@@ -95,6 +111,46 @@ public class TransactionLogItem {
         this.currency = currency;
     }
 
+    public Optional<String> getCtrlCategory() {
+        return ctrlCategory;
+    }
+
+    public void setCtrlCategory(Optional<String> ctrlCategory) {
+        this.ctrlCategory = ctrlCategory;
+    }
+
+    public Optional<LocalDate> getCtrlMonth() {
+        return ctrlMonth;
+    }
+
+    public void setCtrlMonth(Optional<LocalDate> ctrlMonth) {
+        this.ctrlMonth = ctrlMonth;
+    }
+
+    public Optional<Boolean> getCtrlInclude() {
+        return ctrlInclude;
+    }
+
+    public void setCtrlInclude(Optional<Boolean> ctrlInclude) {
+        this.ctrlInclude = ctrlInclude;
+    }
+
+    public Optional<Boolean> getCtrlVat() {
+        return ctrlVat;
+    }
+
+    public void setCtrlVat(Optional<Boolean> ctrlVat) {
+        this.ctrlVat = ctrlVat;
+    }
+
+    public Optional<BigDecimal> getCtrlAmount() {
+        return ctrlAmount;
+    }
+
+    public void setCtrlAmount(Optional<BigDecimal> ctrlAmount) {
+        this.ctrlAmount = ctrlAmount;
+    }
+
     public String getNotice() {
         return notice;
     }
@@ -125,6 +181,14 @@ public class TransactionLogItem {
 
     public void setTransactionTypeName(String transactionTypeName) {
         this.transactionTypeName = transactionTypeName;
+    }
+
+    public Optional<String> getCtrlnvoiceUrl() {
+        return ctrlnvoiceUrl;
+    }
+
+    public void setCtrlnvoiceUrl(Optional<String> ctrlnvoiceUrl) {
+        this.ctrlnvoiceUrl = ctrlnvoiceUrl;
     }
 
     @Override
@@ -171,7 +235,9 @@ public class TransactionLogItem {
         tli.setAccountNumber(values.next());
         tli.setAccountName(values.next());
         tli.setEntryDate(ZonedDateTime.parse(values.next()));
-        tli.setValueDate(LocalDate.parse(values.next()));
+        LocalDate valueDate = LocalDate.parse(values.next());
+        tli.setValueDate(valueDate);
+        tli.setMonth(valueDate.withDayOfMonth(1));
         tli.setCounterAccountNumber(values.next());
         tli.setPartner(values.next());
         tli.setAmount(new BigDecimal(values.next().trim().replaceAll(",", ".")));
