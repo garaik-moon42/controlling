@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DatabaseConnector implements AutoCloseable {
+    private static final String TRANSACTIONS_TABLE_NAME = "ALL_TRANSACTIONS";
     private Connection connection;
     private PreparedStatement insertStatement;
     private int insertCount = 0;
@@ -47,7 +48,7 @@ public class DatabaseConnector implements AutoCloseable {
 
     public Set<Integer> getStoredItemIds() {
         Set<Integer> ids = new HashSet<>();
-        try (ResultSet rs = connection.createStatement().executeQuery("select id from TRANSACTIONS")) {
+        try (ResultSet rs = connection.createStatement().executeQuery("select id from " + TRANSACTIONS_TABLE_NAME)) {
             while (rs.next()) {
                 ids.add(rs.getInt(1));
             }
@@ -65,7 +66,7 @@ public class DatabaseConnector implements AutoCloseable {
         DatabaseConnector dc = new DatabaseConnector();
         dc.connection = DriverManager.getConnection(jdbcUrl, user, password);
         dc.insertStatement = dc.connection.prepareStatement(
-                "insert into TRANSACTIONS (" +
+                "insert into " + TRANSACTIONS_TABLE_NAME + " (" +
                         "ID, ACCOUNT_NUMBER, ACCOUNT_NAME, ENTRY_DATE, VALUE_DATE, MONTH, COUNTER_ACCOUNT_NUMBER, PARTNER, " +
                         "AMOUNT, CURRENCY, CTRL_CATEGORY, CTRL_MONTH, CTRL_INCLUDE, CTRL_VAT, CTRL_AMOUNT," +
                         "NOTICE, TRANSACTION_BANK_ID, TRANSACTION_TYPE_CODE, TRANSACTION_TYPE_NAME, CTRL_INVOICE_URL" +

@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class KHImporter {
 
     private static Stream<String> getFileContentAsStream() throws IOException {
-        Path sourceFilePath = Paths.get("./src/main/resources/sample/HISTORY_EQ24CT2S_2024-11-04T17_22_50.csv");
+        Path sourceFilePath = Paths.get("./src/main/resources/sample/2020ALL.csv");
         Charset latin2 = Charset.forName("ISO-8859-2");
         return Files.lines(sourceFilePath, latin2);
     }
