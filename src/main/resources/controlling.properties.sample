@@ -1,0 +1,5 @@
+db.host=79.172.252.61
+db.port=3306
+db.name=rditools_erp
+db.user=TODO
+db.password=TODO

@@ -1,4 +1,4 @@
 src/db/data/*
 /target/
-src/main/resources/sample/
+src/main/resources/controlling.properties
 HISTORY_*.csv

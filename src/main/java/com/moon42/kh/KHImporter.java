@@ -18,10 +18,12 @@ public class KHImporter {
     }
 
     public static void main(String[] args) {
+        Configuration conf = new Configuration("controlling.properties");
+        String jdbcUrl = "jdbc:mysql://%s:%s/%s?useSSL=false&allowPublicKeyRetrieval=true".formatted(conf.getDbHost(), conf.getDbPort(), conf.getDbName());
         try (
-            DatabaseConnector db = DatabaseConnector.connect("jdbc:mysql://79.172.252.61:3306/rditools_erp?useSSL=false&allowPublicKeyRetrieval=true", "rditools_erproot", "sl7fn.[mmYm!");
-            Stream<String> headerStream = getFileContentAsStream();
-            Stream<String> contentStream = getFileContentAsStream().skip(1)
+                DatabaseConnector db = DatabaseConnector.connect(jdbcUrl, conf.getDbUser(), conf.getDbPassword());
+                Stream<String> headerStream = getFileContentAsStream();
+                Stream<String> contentStream = getFileContentAsStream().skip(1)
         ) {
             Set<Integer> existingIds = db.getStoredItemIds();
             String header = headerStream.findFirst().orElseThrow();
