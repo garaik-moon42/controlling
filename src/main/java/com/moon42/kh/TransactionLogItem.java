@@ -1,6 +1,5 @@
 package com.moon42.kh;
 
-import javax.swing.text.html.Option;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -199,12 +198,13 @@ public class TransactionLogItem {
         return accountNumber.equals(that.accountNumber)
                 && entryDate.equals(that.entryDate)
                 && partner.equals(that.partner)
-                && amount.equals(that.amount);
+                && amount.equals(that.amount)
+                && transactionBankId.equals(that.transactionBankId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountNumber, entryDate, partner, amount);
+        return Objects.hash(accountNumber, entryDate, partner, amount, transactionBankId);
     }
 
     @Override
@@ -246,7 +246,7 @@ public class TransactionLogItem {
         tli.setTransactionBankId(values.next());
         tli.setTransactionTypeCode(values.next());
         tli.setTransactionTypeName(values.next());
-        tli.setId(Objects.hash(tli.getAccountNumber(), tli.getEntryDate(), tli.getPartner(), tli.getAmount()));
+        tli.setId(tli.hashCode());
         return tli;
     }
 }

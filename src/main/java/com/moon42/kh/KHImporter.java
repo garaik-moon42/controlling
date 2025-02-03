@@ -12,14 +12,14 @@ import java.util.stream.Stream;
 public class KHImporter {
 
     private static Stream<String> getFileContentAsStream() throws IOException {
-        Path sourceFilePath = Paths.get("./src/main/resources/sample/2020ALL.csv");
+        Path sourceFilePath = Paths.get("./HISTORY_2025.csv");
         Charset latin2 = Charset.forName("ISO-8859-2");
         return Files.lines(sourceFilePath, latin2);
     }
 
     public static void main(String[] args) {
         try (
-            DatabaseConnector db = DatabaseConnector.connect("jdbc:mysql://localhost:3306/kh?useSSL=false&allowPublicKeyRetrieval=true", "root", "notroot");
+            DatabaseConnector db = DatabaseConnector.connect("jdbc:mysql://79.172.252.61:3306/rditools_erp?useSSL=false&allowPublicKeyRetrieval=true", "rditools_erproot", "sl7fn.[mmYm!");
             Stream<String> headerStream = getFileContentAsStream();
             Stream<String> contentStream = getFileContentAsStream().skip(1)
         ) {

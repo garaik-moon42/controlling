@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class DatabaseConnector implements AutoCloseable {
-    private static final String TRANSACTIONS_TABLE_NAME = "ALL_TRANSACTIONS";
+    private static final String TRANSACTIONS_TABLE_NAME = "BANK_TRANSACTIONS";
     private Connection connection;
     private PreparedStatement insertStatement;
     private int insertCount = 0;

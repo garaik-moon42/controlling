@@ -1,3 +1,4 @@
 src/db/data/*
 /target/
 src/main/resources/sample/
+HISTORY_*.csv
